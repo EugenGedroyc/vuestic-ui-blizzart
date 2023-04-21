@@ -22,9 +22,6 @@ export const useModal = () => {
     }
     return { modalInstance, close }
   }
-  // const { initOpt } = init('')
-
-  // console.log(initOpt)
 
   /**
    * @param options can be message string or options object
@@ -32,8 +29,8 @@ export const useModal = () => {
    */
   const confirm = (options: string | ModalOptions) => {
     if (typeof options === 'string') {
-      return new Promise<boolean>((resolve, reject) => {
-        createModalInstance({
+      const modalInstance = (resolve:any, reject:any) => {
+        return createModalInstance({
           message: options as string,
           onOk () {
             resolve(true)
@@ -42,23 +39,48 @@ export const useModal = () => {
             resolve(false)
           },
         }, appContext)
+      }
+
+      // const vNode = modalInstance(1, 2)
+      // console.log(vNode.props!.onOk)
+      // const close = () => {
+
+      //   // modalInstance.props!.onOk()
+      // }
+      const promiseInit = new Promise<boolean>((resolve, reject) => {
+        modalInstance(resolve, reject)
       })
+      // console.log(promiseInit)
+
+      return {
+        promiseInit,
+        close,
+      }
+    } else {
+      const promiseInit = new Promise<boolean>((resolve, reject) => {
+        const modalInstance = createModalInstance({
+          ...options,
+          onOk () {
+            options?.onOk?.()
+            resolve(true)
+          },
+          onCancel () {
+            options?.onCancel?.()
+            resolve(false)
+          },
+        }, appContext)
+      })
+
+      console.log(promiseInit)
+
+      return {
+        promiseInit,
+        // onOk,
+      }
     }
 
-    return new Promise<boolean>((resolve, reject) => {
-      createModalInstance({
-        ...options,
-        onOk () {
-          options?.onOk?.()
-          resolve(true)
-        },
-        onCancel () {
-          options?.onCancel?.()
-          resolve(false)
-        },
-      }, appContext)
-    })
+    // const onOk = modalInstance.props!.onOk()
   }
 
-  return { init, confirm }
+  return { init, confirm, close }
 }

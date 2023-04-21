@@ -33,16 +33,32 @@
 import { VaButton } from '../va-button'
 import { useModal } from './'
 
-// const { confirm } = useModal()
-// const alert = (...args) => window.alert(...args)
-
 const { confirm } = useModal()
 
-const { close } = confirm('123')
+const foo = async () => {
+  const { result } = await confirm('lol')
 
-setInterval(() => {
-  close()
-}, 5000)
+  if (result) {
+    alert(result)
+  } else {
+    alert('canceled')
+  }
+}
+foo()
+
+// setTimeout(() => {
+//   close()
+// }, 5000);
+
+// const alert = (...args) => window.alert(...args)
+
+// const { confirm } = useModal();
+
+// const { close } = init("123");
+
+// setInterval(() => {
+//   close();
+// }, 5000);
 </script>
 
 <style lang="scss">
