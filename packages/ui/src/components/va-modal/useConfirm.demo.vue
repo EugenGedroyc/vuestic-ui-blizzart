@@ -36,14 +36,25 @@ import { useModal } from './'
 const { confirm } = useModal()
 
 const foo = async () => {
-  const { result } = await confirm('lol')
-
-  if (result) {
-    alert(result)
+  // const { promiseInit, close } = await confirm("msgConfirm");
+  const modal = await confirm({
+    message: 'msgConfirm',
+    title: '',
+    okText: 'Выйти из сервисного меню',
+    cancelText: 'Продолжить работу',
+  })
+  console.log(modal.promiseInit)
+  // promiseInit.then(
+  //   (result) => alert("result"),
+  //   (error) => alert("error")
+  // );
+  if (modal.promiseInit) {
+    alert('result')
   } else {
     alert('canceled')
   }
 }
+
 foo()
 
 // setTimeout(() => {

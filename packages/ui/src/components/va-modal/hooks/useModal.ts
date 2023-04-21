@@ -29,7 +29,7 @@ export const useModal = () => {
    */
   const confirm = (options: string | ModalOptions) => {
     if (typeof options === 'string') {
-      const modalInstance = (resolve:any, reject:any) => {
+      const modalInstance = (resolve:any) => {
         return createModalInstance({
           message: options as string,
           onOk () {
@@ -41,14 +41,14 @@ export const useModal = () => {
         }, appContext)
       }
 
-      // const vNode = modalInstance(1, 2)
+      // const vNode = modalInstance()
       // console.log(vNode.props!.onOk)
       // const close = () => {
 
       //   // modalInstance.props!.onOk()
       // }
       const promiseInit = new Promise<boolean>((resolve, reject) => {
-        modalInstance(resolve, reject)
+        modalInstance(resolve)
       })
       // console.log(promiseInit)
 
@@ -58,7 +58,7 @@ export const useModal = () => {
       }
     } else {
       const promiseInit = new Promise<boolean>((resolve, reject) => {
-        const modalInstance = createModalInstance({
+        createModalInstance({
           ...options,
           onOk () {
             options?.onOk?.()
@@ -71,11 +71,14 @@ export const useModal = () => {
         }, appContext)
       })
 
+      // const promise = promiseInit.then(
+      //   (result) => result,
+      //   (error) => alert('error'),
+      // )
       console.log(promiseInit)
 
       return {
         promiseInit,
-        // onOk,
       }
     }
 
