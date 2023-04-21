@@ -13,9 +13,18 @@ export const useModal = () => {
   /**
    * @param options can be message string or options object
    */
+
   const init = (options: string | ModalOptions) => {
-    return createModalInstance(options, appContext)
+    const modalInstance = createModalInstance(options, appContext)
+    const close = () => {
+      console.log(modalInstance)
+      modalInstance.props!.onClose()
+    }
+    return { modalInstance, close }
   }
+  // const { initOpt } = init('')
+
+  // console.log(initOpt)
 
   /**
    * @param options can be message string or options object
