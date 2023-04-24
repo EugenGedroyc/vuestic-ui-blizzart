@@ -14,26 +14,20 @@ export const useModal = () => {
    * @param options can be message string or options object
    */
 
+  let modalInstance: any
   const init = (options: string | ModalOptions) => {
-    const modalInstance = createModalInstance(options, appContext)
-    const close = () => {
-      console.log(modalInstance)
-      modalInstance.props!.onClose()
-    }
-    return { modalInstance, close }
+    modalInstance = createModalInstance(options, appContext)
   }
-  // const { initOpt } = init('')
-
-  // console.log(initOpt)
 
   /**
    * @param options can be message string or options object
    * @returns Promise with boolean value. True if modal was confirmed, false if modal was canceled
    */
+
   const confirm = (options: string | ModalOptions) => {
     if (typeof options === 'string') {
       return new Promise<boolean>((resolve, reject) => {
-        createModalInstance({
+        modalInstance = createModalInstance({
           message: options as string,
           onOk () {
             resolve(true)
@@ -46,7 +40,7 @@ export const useModal = () => {
     }
 
     return new Promise<boolean>((resolve, reject) => {
-      createModalInstance({
+      modalInstance = createModalInstance({
         ...options,
         onOk () {
           options?.onOk?.()
@@ -60,5 +54,17 @@ export const useModal = () => {
     })
   }
 
-  return { init, confirm }
+  /**
+   * @param type can be true or false
+   */
+  const close = (type: boolean) => {
+    modalInstance.props!.onClose()
+    if (type === true) {
+      modalInstance.props!.onOk()
+    } else if (type === false) {
+       modalInstance.props!.onCancel()
+    }
+  }
+
+  return { init, confirm, close }
 }
