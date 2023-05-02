@@ -306,6 +306,7 @@ export default defineComponent({
     }
 
     watch(valueComputed, newValueComputed => { // watch for open/close modal
+      console.log('registerModal')
       if (newValueComputed) {
         registerModal()
         setBodyOverflow('hidden')
@@ -316,6 +317,8 @@ export default defineComponent({
         freeFocus()
         setBodyOverflow('')
       }
+      console.log('unregisterModal')
+
       unregisterModal()
     })
 

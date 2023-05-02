@@ -41,6 +41,7 @@ export const useModal = () => {
       modalInstance = createModalInstance({
         ...options,
         onOk () {
+          console.log(modalInstance)
           options?.onOk?.()
           resolve(true)
         },
@@ -56,7 +57,10 @@ export const useModal = () => {
    * @param type can be true or false
    */
   const close = (ok: boolean) => {
+    console.log(modalInstance)
+    modalInstance.props!.onCancel()
     modalInstance.props!.onClose()
+    // modalInstance.props!.onUpdate()
     if (ok === true) {
       modalInstance.props!.onOk()
     } else if (ok === false) {
