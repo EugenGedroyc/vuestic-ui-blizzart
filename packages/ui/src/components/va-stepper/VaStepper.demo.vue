@@ -58,7 +58,22 @@
         </template>
       </VaStepper>
     </VbCard>
-
+    <VbCard title="Controls custom">
+      <VaStepper v-model="step" :steps="steps" nextDisabled>
+        <template
+          v-for="(step, i) in steps"
+          :key="step.label"
+          #[`step-content-${i}`]
+        >
+          This is {{ step.label }} content.
+        </template>
+        <template #controls="{ nextStep, prevStep, setStep }">
+          <va-button @click="prevStep()">Previous</va-button>
+          <va-button @click="nextStep()">Next</va-button>
+          <va-button @click="setStep(steps.length - 1)">Go to last step</va-button>
+        </template>
+      </VaStepper>
+    </VbCard>
     <VbCard title="Finish button hidden">
       <VaStepper v-model="step" :steps="steps" finishButtonHidden> </VaStepper>
     </VbCard>
@@ -66,32 +81,33 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import { VaStepper } from "./index";
+import { ref } from 'vue'
+import { VaStepper } from './index'
+import { VaButton } from '../va-button'
 
-const step = ref(2);
+const step = ref(2)
 
 const steps = [
-  { label: "One" },
-  { label: "Two" },
-  { label: "Three" },
-  { label: "Four" },
-  { label: "Five" },
-];
+  { label: 'One' },
+  { label: 'Two' },
+  { label: 'Three' },
+  { label: 'Four' },
+  { label: 'Five' },
+]
 
 const stepsWithDisabled = [
-  { label: "One" },
-  { label: "Two", disabled: true },
-  { label: "Three" },
-  { label: "Four", disabled: true },
-  { label: "Five" },
-];
+  { label: 'One' },
+  { label: 'Two', disabled: true },
+  { label: 'Three' },
+  { label: 'Four', disabled: true },
+  { label: 'Five' },
+]
 
 const stepsWithCustomIcons = [
-  { label: "One", icon: "search" },
-  { label: "Two", icon: "home" },
-  { label: "Three", icon: "delete" },
-  { label: "Four", icon: "grade" },
-  { label: "Five", icon: "list" },
-];
+  { label: 'One', icon: 'search' },
+  { label: 'Two', icon: 'home' },
+  { label: 'Three', icon: 'delete' },
+  { label: 'Four', icon: 'grade' },
+  { label: 'Five', icon: 'list' },
+]
 </script>
